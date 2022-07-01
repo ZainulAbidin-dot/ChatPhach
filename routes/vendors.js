@@ -85,7 +85,7 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  res.send("kuttay");
+  // res.send("kuttay");
   client.query("select * from vendors", (err, result) => {
     if (!err) {
       res.send(result.rows);

@@ -25,11 +25,10 @@ router.post("/", async (req, res) => {
     (err, result) => {
       if (!err) {
         if (!result.rows.length) {
-          let updateQuery = `update clients
-          set name = '${req.body.name}'
-          where email = '${req.body.email}'`;
+          let insertQuery = `insert into clients (name , email)
+                            values ('${req.body.name}' , '${req.body.email}')`;
 
-          client.query(updateQuery, (err, message) => {
+          client.query(insertQuery, (err, message) => {
             if (!err) {
               res.send("ok");
             } else {

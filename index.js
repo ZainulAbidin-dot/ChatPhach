@@ -17,23 +17,3 @@ app.listen(port, () => console.log(`Listening on port ${port}...`));
 // app.listen(3000, () => {
 //   console.log("Listening to port 3000");
 // });
-
-app.get("/vacant", (req, res) => {
-  client.query(
-    `SELECT vendors.name FROM vendors where vendors.room1 is null AND vendors.room2 is null`,
-    (err, result) => {
-      res.send(result.rows);
-    }
-  );
-  client.end;
-});
-
-app.get("/notvacant", (req, res) => {
-  client.query(
-    `SELECT vendors.name FROM vendors where vendors.room1 is not null OR vendors.room2 is not null`,
-    (err, result) => {
-      res.send(result.rows);
-    }
-  );
-  client.end;
-});
