@@ -13,7 +13,7 @@ const UserRegister = () => {
   const [availableRoom, setavailableRoom] = useState("");
   const navigate = useNavigate();
   const [showChat, setShowChat] = useState(false);
-
+  const avail = false;
 
   const JoinRoom = async () => {
 
@@ -23,7 +23,7 @@ const UserRegister = () => {
       .post("http://localhost:3004/clients", {
         name: username,
         email: email,
-        waiting: false,
+        waiting: true,
       })
       .then((response) => console.log(response.data))
       .then((json) => json);
@@ -36,18 +36,20 @@ const UserRegister = () => {
       .then((json) => json);
       
       const num = availableRoom[0].availabler1;
-      //  const num2 = availableRoom[0].availabler2;
       if (num === 0) {
         console.log("room available");
         socket.emit("join_room", room);
         setShowChat(true);
+        await axios
+        .put(`http://localhost:3004/vendors/room`,{"available": 0})
+        .then((response) => (response.data))
+        .then((json) => json);
+      
         // navigate("/chatbox",{state:{socket:'socket', username:'username', room:'room'}});
       } else {
-        console.log("room is not available");
+        console.log("room is not available",email);
         await axios
-        .post("http://localhost:3004/clients/checkroom", {
-        waiting: 1,
-        })
+        .put(`http://localhost:3004/clients/${email}`,{"waiting": false})
         .then((response) => (response.data))
         .then((json) => json);
       
@@ -87,7 +89,7 @@ const UserRegister = () => {
         <button onClick={JoinRoom}>Join Room</button>
       </div>
       ) : (
-        <ChatBox socket={socket} username={username} room={room} />
+        <ChatBox socket={socket} username={username} room={room} email={email} />
       )}
     </div>
   );

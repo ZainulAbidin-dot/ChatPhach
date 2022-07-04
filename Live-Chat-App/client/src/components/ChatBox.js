@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
 import { v4 as uuidv4 } from "uuid";
 
-function ChatBox({ socket, username, room }) {
+function ChatBox({ socket, username, room, email }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
 
@@ -16,6 +16,7 @@ function ChatBox({ socket, username, room }) {
           new Date(Date.now()).getHours() +
           ":" +
           new Date(Date.now()).getMinutes(),
+        email: email,
       };
 
       await socket.emit("send_message", messageData);

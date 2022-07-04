@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 const VendorsListPanel = () => {
   const [vacant, setvacant] = useState([]);
   const [notvacant, setnotvacant] = useState([]);
-  const [client, setclient] = useState([]);
 
   useEffect(() => {
     return async () => {
@@ -17,12 +16,8 @@ const VendorsListPanel = () => {
         .get("http://localhost:3004/clients/notvacant")
         .then((response) => setnotvacant(response.data))
         .then((json) => json);
-
-      await axios
-        .get("http://localhost:3004/clients")
-        .then((response) => setclient(response.data))
-        .then((json) => json);
     };
+    console.log(vacant)
   }, []);
 
   return (
@@ -44,16 +39,6 @@ const VendorsListPanel = () => {
           <ul>
             {notvacant ? (
               notvacant.map((item) => <li>{item.name}</li>)
-            ) : (
-              <h1>None...</h1>
-            )}
-          </ul>
-        </div>
-        <div className="users-list">
-          <h3>Clients Waiting </h3>
-          <ul>
-            {client ? (
-              client.map((item) => <li>{item.name}</li>)
             ) : (
               <h1>None...</h1>
             )}
